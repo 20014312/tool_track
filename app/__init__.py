@@ -1,3 +1,5 @@
+from datetime import timedelta
+import os
 from flask import Flask
 
 from app.config import db
@@ -8,6 +10,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'tooltrack.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
     
     db.init_app(app)
     
