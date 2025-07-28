@@ -1,0 +1,44 @@
+{% extends 'header_footer_template.html' %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block title %}Login{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container flex">
+
+  <div class="facebook-page flex">
+
+    <div class="text">
+      <h1>Tool Track</h1>
+      <p>The Smart Way to Borrow and Return Tools.</p>
+    </div>
+
+    <form action="{{url_for('login')}}" method="POST">
+      <input type="email" placeholder="Email or phone number" name="email" required>
+
+      <input type="password" placeholder="Password" name="password" required>
+
+      <div class="link">
+        <button type="submit" class="login">Login</button>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <hr>
+
+      <div class="button">
+        <a href="/register">Create new account</a>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tool Track{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/fav_icon.png') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header_footer_template.css') }}">
+
+    {% block styles %}{% endblock %}
+
+</head>
+
+<body>
+
+    {% block header %}
+    <header class="top-bar">
+        <a href="/home">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo">
+        </a>
+
+        <div class="right-buttons">
+            <a href="/mytools">
+                <button id="myToolsBtn">My Tools</button>
+            </a>
+            <a href="/history">
+                <button id="historyBtn">History</button>
+            </a>
+            <a href="/logout">
+                <button id="logoutBtn">Logout</button>
+            </a>
+        </div>
+    </header>
+    {% endblock %}
+
+    <main class="{% if self.header() != '' %}with-header{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    {% block footer %}
+    <footer>
+        <p>&copy; 2025 Tool Track Platform | All Rights Reserved</p>
+    </footer>
+    {% endblock %}
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>
