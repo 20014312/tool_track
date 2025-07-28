@@ -1,0 +1,44 @@
+{% extends 'header_footer_template.html' %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block title %}Register{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="main">
+
+    <div class="register-container">
+
+        <h2>Register</h2>
+
+        <form id="registerForm">
+
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <button type="submit">Register</button>
+
+        </form>
+
+        <p>Already have an account? <a href="/login">Login</a></p>
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const REGISTER_URL = "{{ url_for('register') }}";
+    const LOGIN_URL = "{{ url_for('login') }}";
+</script>
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}
