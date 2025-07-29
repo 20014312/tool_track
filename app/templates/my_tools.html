@@ -1,0 +1,27 @@
+{% extends 'header_footer_template.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mytools.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="tools-header">
+    <h1>My Tools</h1>
+    <button id="addtoolBtn">Add New Tool</button>
+</div>
+
+<div id="toolsContainer" class="tools-grid">
+   
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var imageUrl = "{{ url_for('image_file', filename='') }}";
+</script>
+
+<script src="{{ url_for('static', filename='js/mytools.js') }}"></script>
+{% endblock %}

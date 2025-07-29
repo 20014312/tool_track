@@ -1,0 +1,28 @@
+{% extends 'header_footer_template.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<section class="banner">
+    <img src="{{ url_for('static', filename='images/tool_track_banner.png') }}" alt="Banner">
+</section>
+
+<div class="container">
+    <h2>Available Tools to Borrow</h2>
+    <div id="toolsList"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const TOOLS_API_URL = "{{ url_for('get_tools') }}";
+    var imageUrl = "{{ url_for('image_file', filename='') }}";
+</script>
+
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}
