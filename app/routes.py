@@ -2,7 +2,7 @@ import os
 import uuid
 from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
 from werkzeug.utils import secure_filename
-from app.models import Tool, User
+from app.models import Tool, User, BorrowRequest
 from app.config import db
 
 
@@ -129,4 +129,38 @@ def init_routes(app):
             db.session.add(new_tool)
             db.session.commit()
 
-            return jsonify({'success': True, 'message': 'Tool added successfully!'})
+        return jsonify({'success': True, 'message': 'Tool added successfully!'})
+        
+
+    @app.route('/borrow_tool/<int:tool_id>', methods=['POST'])
+    def borrow_tool(tool_id):
+        current_user_id = session.get('user_id')
+        if not current_user_id:
+            return jsonify({'error': 'User not logged in'}), 401
+
+        tool = Tool.query.get(tool_id)
+        if not tool:
+            return jsonify({'error': 'Tool not found'}), 404
+
+        if tool.user_id == current_user_id:
+            return jsonify({'error': 'You cannot borrow your own tool'}), 400
+
+        if tool.status == 'Exchanged':
+            return jsonify({'error': 'Tool already exchanged'}), 400
+
+        new_request = BorrowRequest(requester_id=current_user_id, receiver_id=tool.user_id, tool_id=tool_id)
+        db.session.add(new_request)
+        db.session.commit()
+
+        return jsonify({'success': True, 'message': 'Tool requested successfully!'})
+    
+
+    @app.route('/delete_tool/<int:tool_id>', methods=['POST', 'GET'])
+    def delete(tool_id):
+        tool = Tool.query.get(tool_id)
+        if tool:
+            db.session.delete(tool)
+            db.session.commit()
+            return {'message': 'Tool deleted successfully'}, 200
+        else:
+            return {'message': 'Tool not found'}, 404
