@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const formData = new FormData();
         formData.append("title", document.getElementById("title").value);
+        formData.append("price", document.getElementById("price").value);
         formData.append("description", document.getElementById("description").value);
         formData.append("toolImage", document.getElementById("toolImage").files[0]);
 

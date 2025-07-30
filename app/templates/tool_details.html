@@ -13,6 +13,7 @@
     <h1>{{ tool.name }}</h1>
     <img src="{{ url_for('image_file', filename='') }}/{{ tool.image }}" alt="Tool Cover" class="toolImg">
     <p><strong>Description:</strong> {{ tool.description }}</p>
+    <h1>{{tool.price}}€</h1>
 
     <button id="borrowtool">Borrow Tool</button>
 </div>

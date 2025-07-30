@@ -110,6 +110,7 @@ def init_routes(app):
                 return jsonify({'error': 'User not logged in'}), 401
             
             name = request.form.get('title')
+            price = request.form.get('price')
             description = request.form.get('description', '')
             
             file = request.files['toolImage']
@@ -125,6 +126,7 @@ def init_routes(app):
             new_tool = Tool(
                 user_id=current_user_id,
                 name=name,
+                price=price,
                 description=description,
                 status='Available',
                 image=unique_filename

@@ -56,7 +56,7 @@ class BorrowRequest(db.Model):
             'receiverName': self.receiver.name,
             'name': self.tool.name,
             'description': self.tool.description,
-            'bookStatus': self.tool.status,
+            'toolStatus': self.tool.status,
             'reqStatus': self.status,
             'image': self.tool.image,
         }
