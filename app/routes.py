@@ -1,5 +1,7 @@
-from flask import flash, jsonify, redirect, render_template, request, session, url_for
-
+import os
+import uuid
+from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
+from werkzeug.utils import secure_filename
 from app.models import Tool, User
 from app.config import db
 
@@ -83,3 +85,48 @@ def init_routes(app):
         tool_list = [tool.to_dict() for tool in tools]
 
         return jsonify({'tools': tool_list})
+    
+    @app.route('/view_tool/<int:tool_id>')
+    def view_tool(tool_id):
+        tool = Tool.query.get(tool_id)
+        if not tool:
+            return "Book not found", 404
+
+        return render_template('tool_details.html', tool=tool)
+    
+
+    @app.route('/addtool', methods=['GET', 'POST'])
+    def add_tool():
+        if request.method == 'GET':
+            return render_template('add_tools.html')
+
+        if request.method == 'POST':
+            current_user_id = session.get('user_id')
+            if not current_user_id:
+                return jsonify({'error': 'User not logged in'}), 401
+            
+            name = request.form.get('title')
+            description = request.form.get('description', '')
+            
+            file = request.files['toolImage']
+            if file.filename == '':
+                return jsonify({'error': 'No selected file'}), 400
+            
+            filename = secure_filename(file.filename)
+            unique_filename = f"{uuid.uuid4().hex}_{filename}"
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], unique_filename))
+            
+            print(unique_filename)
+                    
+            new_tool = Tool(
+                user_id=current_user_id,
+                name=name,
+                description=description,
+                status='Available',
+                image=unique_filename
+            )
+
+            db.session.add(new_tool)
+            db.session.commit()
+
+            return jsonify({'success': True, 'message': 'Tool added successfully!'})

@@ -1,0 +1,81 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f4ede4;
+    color: white;
+}
+
+.logo {
+    height: 60px;
+}
+
+.addtool-form-container {
+    width: 40%;
+    margin: 50px auto;
+    padding: 50px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    text-align: left;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #f4ede4;
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f4ede4;
+}
+
+#message {
+    margin-top: 10px;
+    font-size: 1em;
+    color: green;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

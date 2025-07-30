@@ -1,0 +1,44 @@
+{% extends 'header_footer_template.html' %}
+
+{% block title %}{{ tool.title }}{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="/static/css/tool_details.css">
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+    <h1>{{ tool.name }}</h1>
+    <img src="{{ url_for('image_file', filename='') }}/{{ tool.image }}" alt="Tool Cover" class="toolImg">
+    <p><strong>Description:</strong> {{ tool.description }}</p>
+
+    <button id="borrowtool">Borrow Tool</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script>
+    const toolTitle = "{{ tool.title }}";
+
+    console.log("Title:::" + toolTitle)
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        document.getElementById("borrowtool").addEventListener("click", function () {
+
+            fetch("/borrow_tool/{{ tool.tool_id }}", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    window.location.href = "/home";
+                })
+                .catch(error => console.error("Error:", error));
+        });
+    });
+</script>
+{% endblock %}
