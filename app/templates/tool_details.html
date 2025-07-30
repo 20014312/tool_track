@@ -11,8 +11,13 @@
 {% block content %}
 <div class="card">
     <h1>{{ tool.name }}</h1>
+    <br>
     <img src="{{ url_for('image_file', filename='') }}/{{ tool.image }}" alt="Tool Cover" class="toolImg">
+    <br>
     <p><strong>Description:</strong> {{ tool.description }}</p>
+    <br>
+    <p><strong>Location:</strong> {{tool.owner.address}}</p>
+    <br>
     <h1>{{tool.price}}€</h1>
 
     <button id="borrowtool">Borrow Tool</button>

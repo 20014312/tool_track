@@ -29,7 +29,7 @@ class Tool(db.Model):
             'username': self.owner.name,
             'name': self.name,
             'description': self.description,
-            'price': self.description,
+            'price': self.price,
             'status': self.status,
             'image': self.image,
             'address': self.owner.address,
