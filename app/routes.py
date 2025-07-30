@@ -94,7 +94,7 @@ def init_routes(app):
     def view_tool(tool_id):
         tool = Tool.query.get(tool_id)
         if not tool:
-            return "Book not found", 404
+            return "Tool not found", 404
 
         return render_template('tool_details.html', tool=tool)
     
@@ -168,6 +168,23 @@ def init_routes(app):
             return {'message': 'Tool deleted successfully'}, 200
         else:
             return {'message': 'Tool not found'}, 404
+        
+
+    @app.route('/update-request-status/<int:req_id>', methods=['POST'])
+    def update_req_status(req_id):
+        status = request.form.get('status')
+
+        req = BorrowRequest.query.get(req_id)
+        if req and req.status == 'Pending':
+            tool_id = req.tool_id
+            tool = Tool.query.get(tool_id)
+            if tool and tool.status == 'Available':
+                req.status = status
+                tool.status = 'Exchanged'
+                db.session.commit()
+                return jsonify(success=True)
+            return jsonify(success=False)
+        return jsonify(success=False)
         
 
     @app.route('/history')

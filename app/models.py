@@ -18,6 +18,7 @@ class Tool(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', name='fk_user_id'), nullable=False)
     name = db.Column(db.String(255), nullable=False)
     description = db.Column(db.Text)
+    price = db.Column(db.String(10), nullable = False)
     status = db.Column(db.Enum('Available', 'Exchanged', name='tool_status'), default='Available')
     image = db.Column(db.String(100), nullable=False, unique=True)
     owner = db.relationship('User', backref=db.backref('owner', lazy=True))
@@ -28,6 +29,7 @@ class Tool(db.Model):
             'username': self.owner.name,
             'name': self.name,
             'description': self.description,
+            'price': self.description,
             'status': self.status,
             'image': self.image,
             'address': self.owner.address,
