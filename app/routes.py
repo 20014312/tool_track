@@ -1,12 +1,16 @@
 import os
 import uuid
-from flask import current_app, flash, jsonify, redirect, render_template, request, session, url_for
+from flask import current_app, flash, jsonify, redirect, render_template, request, send_from_directory, session, url_for
 from werkzeug.utils import secure_filename
 from app.models import Tool, User, BorrowRequest
 from app.config import db
 
 
 def init_routes(app):
+
+    @app.route('/uploads/images/<path:filename>')
+    def image_file(filename):
+        return send_from_directory('uploads/images', filename)
     
     @app.route('/')
     def initial():

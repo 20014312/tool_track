@@ -8,6 +8,8 @@ from app.routes import init_routes
 
 def create_app():
     app = Flask(__name__)
+    app.secret_key = os.urandom(24)
+    app.config['UPLOAD_FOLDER'] = 'app/uploads/images'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'tooltrack.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
