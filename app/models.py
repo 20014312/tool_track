@@ -32,3 +32,29 @@ class Tool(db.Model):
             'image': self.image,
             'address': self.owner.address,
         }
+    
+
+class BorrowRequest(db.Model):
+    __tablename__ = 'borrow_requests'
+    
+    request_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    requester_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    tool_id = db.Column(db.Integer, db.ForeignKey('tools.tool_id'), nullable=False)
+    status = db.Column(db.Enum('Pending', 'Accepted', 'Declined', 'Returned', name='request_status'), default='Pending')
+    
+    sender = db.relationship('User', foreign_keys=[requester_id])
+    receiver = db.relationship('User', foreign_keys=[receiver_id])
+    tool = db.relationship('Tool', foreign_keys=[tool_id])
+    
+    def to_dict(self):
+        return{
+            'req_id': self.request_id,
+            'requesterName': self.sender.name,
+            'receiverName': self.receiver.name,
+            'name': self.tool.name,
+            'description': self.tool.description,
+            'bookStatus': self.tool.status,
+            'reqStatus': self.status,
+            'image': self.tool.image,
+        }

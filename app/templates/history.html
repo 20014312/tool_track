@@ -1,0 +1,111 @@
+
+{% extends 'header_footer_template.html' %}
+
+{% block title %}History{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="/static/css//history.css">
+{% endblock %}
+
+
+{% block content %}
+<div class="history-container">
+  <div class="section">
+    <h2 class="toggle-heading">Exchange Requests</h2>
+    <div class="section-content show">
+      {% for req in borrow_requests %}
+      <div class="card">
+
+        <div class="card-one">
+          <img src="{{ url_for('image_file', filename='') }}{{ req.book.image }}" alt="{{ req.book.title }}"
+            class="tool-image">
+        </div>
+
+        <div class="card-two">
+          <h3>{{ req.tool.name }}</h3>
+          <p>Requested from: {{ req.sender.name }}</p>
+          <p>Status: <strong>{{ req.status }}</strong></p>
+        </div>
+
+        <div class="card-three">
+          {% if req.status == 'Pending' %}
+          <button class="accept-btn" onclick="updateRequest('{{ req.request_id }}', 'Accepted')">Accept</button>
+          <button class="decline-btn" onclick="updateRequest('{{ req.request_id }}', 'Declined')">Decline</button>
+          {% else %}
+          <p><strong>Status:</strong> {{ req.status }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+      {% else %}
+      <p>No borrow requests yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="toggle-heading">Tools Exchanged</h2>
+    <div class="section-content show">
+      {% for req in tools_exchanged %}
+      <div class="card">
+
+        <div class="card-one">
+          <img src="{{ url_for('image_file', filename='') }}{{ req.book.image }}" alt="{{ req.book.title }}"
+            class="tool-image">
+        </div>
+
+        <div class="card-two">
+          <h3>{{ req.tool.name }}</h3>
+          <p>Requested from: {{ req.sender.name }}</p>
+          <p>Status: <strong>{{ req.tool.status }}</strong></p>
+        </div>
+
+      </div>
+      {% else %}
+      <p>No tools have been exchanged yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="toggle-heading">Tools Borrowed</h2>
+    <div class="section-content show">
+      {% for req in tools_borrowed %}
+      <div class="card">
+
+        <div class="card-one">
+          <img src="{{ url_for('image_file', filename='') }}{{ req.book.image }}" alt="{{ req.book.title }}"
+            class="tool-image">
+        </div>
+
+        <div class="card-two">
+          <h3>{{ req.tool.name }}</h3>
+          <p>Owner: {{ req.receiver.name }}</p>
+          <p>Status: <strong>{{ req.status }}</strong></p>
+        </div>
+
+        <div class="card-three">
+          {% if req.status != 'Pending' %}
+          <button class="return-btn" onclick="returnTool('{{ req.request_id }}')">Return</button>
+          {% else %}
+          <p><strong>Status:</strong> {{ req.status }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+      {% else %}
+      <p>No borrowed tools found.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}
+
+
+
+<!-- https://www.w3schools.com/howto/howto_js_collapsible.asp -->
+<!-- https://www.geeksforgeeks.org/how-to-create-a-collapsible-section-using-css-and-javascript/ -->

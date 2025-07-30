@@ -164,3 +164,40 @@ def init_routes(app):
             return {'message': 'Tool deleted successfully'}, 200
         else:
             return {'message': 'Tool not found'}, 404
+        
+
+    @app.route('/history')
+    def my_history():
+        user_id = session.get('user_id')
+    
+        if not user_id:
+            return redirect('/login')
+
+        borrow_requests = BorrowRequest.query.filter_by(receiver_id=user_id, status='Pending').all()
+        print("A",borrow_requests, user_id)
+        
+        tools_exchanged = (
+        BorrowRequest.query
+        .join(Tool, BorrowRequest.tool_id == Tool.tool_id)
+        .filter(
+            BorrowRequest.receiver_id==user_id, 
+            Tool.status == 'Exchanged'
+            )
+        .all()
+        )
+        print("B",tools_exchanged)
+
+        borrowed_requests = BorrowRequest.query.filter(
+            BorrowRequest.requester_id == user_id
+        ).all()
+        borrowed_tools = [req for req in borrowed_requests]
+        print("C",borrowed_tools)
+
+        return render_template('history.html', borrow_requests=borrow_requests,  tools_exchanged=tools_exchanged, tools_borrowed=borrowed_tools)
+    
+
+    @app.route('/logout')
+    def logout():
+        session.clear()
+        flash('You have been logged out.', 'info')
+        return redirect(url_for('login'))
